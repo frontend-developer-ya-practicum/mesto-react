@@ -44,6 +44,10 @@ class Api {
     }).then((resp) => this._checkResp(resp, "Ошибка при снятии лайка"));
   }
 
+  changeLikeCardStatus(cardId, isLiked) {
+    return isLiked ? this.putLike({ cardId }) : this.deleteLike({ cardId });
+  }
+
   getUserInfo() {
     return fetch(this._baseUrl + "/users/me", {
       headers: this._headers,
