@@ -8,6 +8,7 @@ import PopupWithForm from "./PopupWithForm.js";
 import ImagePopup from "./ImagePopup.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -51,6 +52,16 @@ function App() {
   function handleUpdateUser(user) {
     api
       .patchUserInfo(user)
+      .then((newUser) => {
+        setCurrentUser(newUser);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function handleUpdateAvatar({ avatar }) {
+    api
+      .patchUserAvatar({ avatar })
       .then((newUser) => {
         setCurrentUser(newUser);
         closeAllPopups();
@@ -106,25 +117,11 @@ function App() {
         </fieldset>
       </PopupWithForm>
 
-      <PopupWithForm
-        name="avatar"
-        title="Обновить аватар"
-        buttonText="Сохранить"
+      <EditAvatarPopup
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
-      >
-        <fieldset className="popup__fieldset">
-          <input
-            className="popup__input"
-            name="avatar"
-            id="avatar-link-input"
-            type="url"
-            placeholder="Ссылка на картинку"
-            required
-          />
-          <span className="popup__input-error avatar-link-input-error"></span>
-        </fieldset>
-      </PopupWithForm>
+        onUpdateAvatar={handleUpdateAvatar}
+      />
 
       <PopupWithForm name="confirm" title="Вы уверены?" buttonText="Да" />
 
