@@ -7,6 +7,7 @@ import Main from "./Main.js";
 import PopupWithForm from "./PopupWithForm.js";
 import ImagePopup from "./ImagePopup.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -47,6 +48,16 @@ function App() {
     setSelectedCard({ name: "", link: "" });
   }
 
+  function handleUpdateUser(user) {
+    api
+      .patchUserInfo(user)
+      .then((newUser) => {
+        setCurrentUser(newUser);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Header />
@@ -58,38 +69,11 @@ function App() {
       />
       <Footer />
 
-      <PopupWithForm
-        name="profile"
-        title="Редактировать профиль"
-        buttonText="Сохранить"
+      <EditProfilePopup
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
-      >
-        <fieldset className="popup__fieldset">
-          <input
-            className="popup__input"
-            name="name"
-            id="profile-name-input"
-            type="text"
-            placeholder="Имя"
-            required
-            minLength="2"
-            maxLength="40"
-          />
-          <span className="popup__input-error profile-name-input-error"></span>
-          <input
-            className="popup__input"
-            name="about"
-            id="profile-about-input"
-            type="text"
-            placeholder="Описание"
-            required
-            minLength="2"
-            maxLength="200"
-          />
-          <span className="popup__input-error profile-about-input-error"></span>
-        </fieldset>
-      </PopupWithForm>
+        onUpdateUser={handleUpdateUser}
+      />
 
       <PopupWithForm
         name="card"
