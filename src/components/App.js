@@ -6,6 +6,7 @@ import Footer from "./Footer.js";
 import Main from "./Main.js";
 import PopupWithForm from "./PopupWithForm.js";
 import ImagePopup from "./ImagePopup.js";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -47,7 +48,7 @@ function App() {
   }
 
   return (
-    <>
+    <CurrentUserContext.Provider value={currentUser}>
       <Header />
       <Main
         onEditProfile={handleEditProfileClick}
@@ -144,7 +145,7 @@ function App() {
       <PopupWithForm name="confirm" title="Вы уверены?" buttonText="Да" />
 
       <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-    </>
+    </CurrentUserContext.Provider>
   );
 }
 
