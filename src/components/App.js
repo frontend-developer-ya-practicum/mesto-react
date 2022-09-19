@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
+import api from "../utils/api";
 import Header from "./Header.js";
 import Footer from "./Footer.js";
 import Main from "./Main.js";
@@ -12,6 +13,17 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
 
   const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
+
+  const [currentUser, setCurrentUser] = useState({});
+
+  useEffect(() => {
+    api
+      .getUserInfo()
+      .then((user) => {
+        setCurrentUser(user);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
