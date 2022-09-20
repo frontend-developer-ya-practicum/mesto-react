@@ -21,6 +21,7 @@ function App() {
   const [cardToDelete, setCardToDelete] = useState({ name: "", link: "" });
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getInitialCards()])
@@ -43,6 +44,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    setIsSubmitting(true);
     api
       .deleteCard({ cardId: card._id })
       .then(() => {
@@ -77,9 +79,11 @@ function App() {
     setIsDeletePlacePopupOpen(false);
     setSelectedCard({ name: "", link: "" });
     setCardToDelete({ name: "", link: "" });
+    setIsSubmitting(false);
   }
 
   function handleUpdateUser(user) {
+    setIsSubmitting(true);
     api
       .patchUserInfo(user)
       .then((newUser) => {
@@ -90,6 +94,7 @@ function App() {
   }
 
   function handleUpdateAvatar({ avatar }) {
+    setIsSubmitting(true);
     api
       .patchUserAvatar({ avatar })
       .then((newUser) => {
@@ -100,6 +105,7 @@ function App() {
   }
 
   function handleAddPlaceSubmit(card) {
+    setIsSubmitting(true);
     api
       .postCard(card)
       .then((newCard) => {
@@ -127,18 +133,21 @@ function App() {
         isOpen={isEditProfilePopupOpen}
         onClose={closeAllPopups}
         onUpdateUser={handleUpdateUser}
+        isSubmitting={isSubmitting}
       />
 
       <AddPlacePopup
         isOpen={isAddPlacePopupOpen}
         onClose={closeAllPopups}
         onAddPlace={handleAddPlaceSubmit}
+        isSubmitting={isSubmitting}
       ></AddPlacePopup>
 
       <EditAvatarPopup
         isOpen={isEditAvatarPopupOpen}
         onClose={closeAllPopups}
         onUpdateAvatar={handleUpdateAvatar}
+        isSubmitting={isSubmitting}
       />
 
       <DeletePlacePopup
@@ -146,6 +155,7 @@ function App() {
         onClose={closeAllPopups}
         onCardDelete={handleCardDelete}
         card={cardToDelete}
+        isSubmitting={isSubmitting}
       />
 
       <ImagePopup onClose={closeAllPopups} card={selectedCard} />

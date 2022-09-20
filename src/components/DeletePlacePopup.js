@@ -1,6 +1,8 @@
+import { useState } from "react";
+
 import PopupWithForm from "./PopupWithForm";
 
-function DeletePlacePopup({ isOpen, onClose, onCardDelete, card }) {
+function DeletePlacePopup({ isOpen, onClose, onCardDelete, card, isSubmitting }) {
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -11,9 +13,11 @@ function DeletePlacePopup({ isOpen, onClose, onCardDelete, card }) {
       name="confirm"
       title="Вы уверены?"
       buttonText="Да"
+      buttonTextOnSubmit="Удаление"
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isSubmitting={isSubmitting}
     />
   );
 }

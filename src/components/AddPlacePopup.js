@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
   const [name, setName] = useState("");
   const [link, setLink] = useState("");
 
@@ -27,9 +27,11 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       name="card"
       title="Новое место"
       buttonText="Сохранить"
+      buttonTextOnSubmit="Сохранение"
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isSubmitting={isSubmitting}
     >
       <fieldset className="popup__fieldset">
         <input
