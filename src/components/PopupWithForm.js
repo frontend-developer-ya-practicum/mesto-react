@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 function PopupWithForm({
   name,
   title,
@@ -9,8 +11,30 @@ function PopupWithForm({
   onSubmit,
   isSubmitting,
 }) {
+  useEffect(() => {
+    function handleEscClose(e) {
+      if (e.code === "Escape") {
+        onClose();
+      }
+    }
+
+    document.addEventListener("keydown", handleEscClose);
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
+  }, []);
+
+  function handleClickOnOutside(e) {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }
+
   return (
-    <div className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}>
+    <div
+      onClick={handleClickOnOutside}
+      className={`popup popup_type_${name} ${isOpen && "popup_opened"}`}
+    >
       <div className="popup__container">
         <button
           onClick={onClose}

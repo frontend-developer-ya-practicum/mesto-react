@@ -1,6 +1,15 @@
 function ImagePopup({ card, onClose }) {
+  function handleClickOnOutside(e) {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }
+
   return (
-    <div className={`popup popup_type_image ${card.name.length && "popup_opened"}`}>
+    <div
+      onClick={handleClickOnOutside}
+      className={`popup popup_type_image ${card.name.length && "popup_opened"}`}
+    >
       <div className="popup__image-container">
         <button
           onClick={onClose}

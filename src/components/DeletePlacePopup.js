@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import PopupWithForm from "./PopupWithForm";
 
 function DeletePlacePopup({ isOpen, onClose, onCardDelete, card, isSubmitting }) {
@@ -8,6 +6,7 @@ function DeletePlacePopup({ isOpen, onClose, onCardDelete, card, isSubmitting })
 
     onCardDelete(card);
   }
+
   return (
     <PopupWithForm
       name="confirm"
