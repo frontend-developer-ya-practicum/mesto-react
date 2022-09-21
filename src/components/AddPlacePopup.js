@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import PopupWithForm from "./PopupWithForm";
 
@@ -22,6 +22,12 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
       link,
     });
   }
+
+  useEffect(() => {
+    setName("");
+    setLink("");
+  }, [isOpen]);
+
   return (
     <PopupWithForm
       name="card"
@@ -35,7 +41,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
     >
       <fieldset className="popup__fieldset">
         <input
-          value={name}
+          value={name || ""}
           onChange={handleChangeName}
           className="popup__input"
           name="name"
@@ -48,7 +54,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isSubmitting }) {
         />
         <span className="popup__input-error card-name-input-error"></span>
         <input
-          value={link}
+          value={link || ""}
           onChange={handleChangeLink}
           className="popup__input"
           name="link"
